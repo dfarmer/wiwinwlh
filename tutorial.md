@@ -578,7 +578,7 @@ sequence [[1,2,3],[10,20,30]]
 
 **IO**
 
-Sequence takes a list of IO actions, performs them sequence tally, and returns the list of resulting values in
+Sequence takes a list of IO actions, performs them sequentially, and returns the list of resulting values in
 the order sequenced.
 
 ```haskell
@@ -665,8 +665,8 @@ execState :: State s a -> s -> s
 ~~~~ {.haskell include="src/state.hs"}
 ~~~~
 
-The state monad is often mistakingly as being impure, but it is in fact entirely pure and the same effect
-could be achieved by explicitly passing state. An simple implementation of the State monad is only a few
+The state monad is often mistaken as being impure, but it is in fact entirely pure and the same effect
+could be achieved by explicitly passing state. A simple implementation of the State monad is only a few
 lines:
 
 ~~~~ {.haskell include="src/state_impl.hs"}
@@ -736,14 +736,14 @@ See:
 Seq and WHNF
 ------------
 
-In Haskell evaluation only occurs at outer constructor of case-statements in Core. If we pattern match on a
-list we don't implicitly force all values in the list. A element in the list is only evaluated when we
-scrutinize it's cons cell.
+In Haskell evaluation only occurs at the outer constructor of case-statements in Core. If we pattern match on a
+list we don't implicitly force all values in the list. An element in the list is only evaluated when we
+scrutinize its cons cell.
 
 A term is said to be in *weak head normal-form* if the outermost constructor or lambda cannot be reduced
 further.
 
-The ``seq`` function introduces an artificial dependence on the evaluation of order of two terms by requiring
+The ``seq`` function introduces an artificial dependence on the evaluation order of two terms by requiring
 that the first argument be evaluated to WHNF before the evaluation of the second.
 
 ```haskell
@@ -1005,8 +1005,8 @@ See: [Monad Transformers: Step-By-Step](http://www.cs.virginia.edu/~wh5a/persona
 Basics
 ------
 
-The most basic use requires us to use the T-variants of the each of the monad transformers for the outer
-layers and to explicit ``lift`` and ``return`` values between each the layers.
+The most basic use requires us to use the T-variants of each of the monad transformers for the outer
+layers and to explicitly ``lift`` and ``return`` values between each the layers.
 
 ~~~~ {.haskell include="src/transformer.hs"}
 ~~~~
@@ -1017,8 +1017,8 @@ The fundamental limitation of this approach is that we find ourselves ``lift.lif
 Newtype Deriving
 ----------------
 
-Newtypes let us reference a date type with a single constructor as a new distinct type, with no runtime
-overhead from boxing, unlike a algebraic datatype with single constructor.  Newtype wrappers around strings
+Newtypes let us reference a data type with a single constructor as a new distinct type, with no runtime
+overhead from boxing, unlike an algebraic datatype with single constructor.  Newtype wrappers around strings
 and numeric types can often drastically reduce accidental errors.  Using ``-XGeneralizedNewtypeDeriving`` we
 can recover the functionality of instances of the underlying type.
 
@@ -1035,7 +1035,7 @@ In the expression: v + x
 ```
 
 Using newtype deriving with the mtl library typeclasses we can produce flattened transformer types that don't
-require explicit lifting in the transform stack. For example a little stack machine the Reader Writer and
+require explicit lifting in the transform stack. For example a little stack machine using the Reader, Writer, and
 State monads.
 
 ~~~~ {.haskell include="src/newtype_deriving.hs"}
@@ -1048,8 +1048,8 @@ Control.Exception
 -----------------
 
 The low-level (and most dangerous) way to handle errors is to use the ``throw`` and ``catch`` functions which
-allow us to throw extensible extensions in pure code but catch the resulting exception within IO.  Of
-specific note is that return value of the ``throw`` inhabits all types. There's no reason to use this for
+allow us to throw extensible exceptions in pure code but catch the resulting exception within IO.  Of
+specific note is that the return value of the ``throw`` inhabits all types. There's no reason to use this for
 custom code that doesn't use low-level system operations.
 
 ```haskell
